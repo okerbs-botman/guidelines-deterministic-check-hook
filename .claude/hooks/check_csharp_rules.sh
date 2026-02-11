@@ -119,9 +119,9 @@ MATCHES=$(grep -nP 'ExecuteRawQuery' "$FILE" || true)
 
 [[ -z "$VIOLATIONS" ]] && exit 0
 
-HEADER="C# RULE VIOLATIONS in $(basename "$FILE"):"
-FOOTER="Fix these violations and apply the edit again."
-MSG=$(printf "%s\n\n%s%s" "$HEADER" "$VIOLATIONS" "$FOOTER")
+HEADER="C# RULE VIOLATIONS DETECTED in $(basename "$FILE")"
+FOOTER="REQUIRED ACTION: You must immediately fix ALL violations listed above by editing the file. Do not ask for permission - fix them now and then present the corrected code to the user for approval."
+MSG=$(printf "%s\n\n%s\n%s" "$HEADER" "$VIOLATIONS" "$FOOTER")
 
 if [[ $# -ge 1 ]]; then
     echo "$MSG"
