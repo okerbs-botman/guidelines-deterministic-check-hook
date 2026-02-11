@@ -80,6 +80,41 @@ BRACELESS=$(awk '
 }' "$FILE" || true)
 [[ -n "$BRACELESS" ]] && VIOLATIONS+="[BRACELESS_CONDITIONAL: Always use braces {} on if/else/for/foreach/while]"$'\n'"$BRACELESS"$'\n\n'
 
+# ── R10: Tab indentation ────────────────────────────────────────────
+MATCHES=$(grep -nP '^\t' "$FILE" || true)
+[[ -n "$MATCHES" ]] && add_violation "TAB_INDENT: Use 4 spaces for indentation, not tabs" "$MATCHES"
+
+# ── R11: Visibility order (private → protected → public) ────────────
+VIS_ORDER=$(awk '
+/class [A-Za-z]/ { max_vis=0 }
+/^\s*(private|protected|public) / && /\(/ && !/class / && !/readonly / && !/const / {
+    tmp=$0; sub(/\(.*/, "", tmp); n=split(tmp, a)
+    if (n < 3) next
+    if ($0 ~ /^\s*private/) v=1
+    else if ($0 ~ /^\s*protected/) v=2
+    else if ($0 ~ /^\s*public/) v=3
+    else next
+    if (v < max_vis) printf "  Line %d: %s\n", NR, $0
+    if (v > max_vis) max_vis=v
+}' "$FILE" || true)
+[[ -n "$VIS_ORDER" ]] && VIOLATIONS+="[VISIBILITY_ORDER: Methods must be ordered private, then protected, then public]"$'\n'"$VIS_ORDER"$'\n\n'
+
+# ── R12: Hardcoded "S"/"N" instead of YesNoEnum ─────────────────────
+MATCHES=$(grep -nP '==\s*"[SN]"|"[SN]"\s*==' "$FILE" || true)
+[[ -n "$MATCHES" ]] && add_violation "HARDCODED_SN: Use YesNoEnum.Si.Key / YesNoEnum.No.Key instead of \"S\"/\"N\"" "$MATCHES"
+
+# ── R13: .First()/.Last() without predicate ─────────────────────────
+MATCHES=$(grep -nP '\.(First|Last)\(\)' "$FILE" || true)
+[[ -n "$MATCHES" ]] && add_violation "NO_FIRST_LAST: Use indexer [0]/[list.Count-1] instead of .First()/.Last() on lists" "$MATCHES"
+
+# ── R14: Block comments /* */ ────────────────────────────────────────
+MATCHES=$(grep -nP '/\*' "$FILE" || true)
+[[ -n "$MATCHES" ]] && add_violation "NO_BLOCK_COMMENT: Block comments /* */ are prohibited, use /// XML docs only" "$MATCHES"
+
+# ── R15: Raw SQL usage ──────────────────────────────────────────────
+MATCHES=$(grep -nP 'ExecuteRawQuery' "$FILE" || true)
+[[ -n "$MATCHES" ]] && add_violation "RAW_SQL_WARNING: ExecuteRawQuery is last resort only, prefer IEntityService<T>" "$MATCHES"
+
 # ── Output ──────────────────────────────────────────────────────────
 
 [[ -z "$VIOLATIONS" ]] && exit 0

@@ -11,6 +11,11 @@ namespace Test.Violations
     {
         // This is a prohibited comment
 
+	private void TabIndented()
+        {
+            string s = "tabs used above";
+        }
+
         private void UseOfVar()
         {
             var list = new List<int>();
@@ -40,6 +45,41 @@ namespace Test.Violations
         {
             if (condition)
                 DoSomething();
+        }
+
+        private void HardcodedSN()
+        {
+            if (entity.HABITUAL == "S")
+            {
+                Process();
+            }
+        }
+
+        private void FirstLastOnList()
+        {
+            ENTITY first = list.First();
+            ENTITY last = list.Last();
+        }
+
+        private void BlockComment()
+        {
+            /* this is a block comment */
+            int x = 1;
+        }
+
+        private void RawSqlUsage()
+        {
+            IQueryable<ROW> rows = uow.ExecuteRawQuery<ROW>(ContextType.Company, "SELECT * FROM T");
+        }
+
+        public void PublicMethodFirst()
+        {
+            DoSomething();
+        }
+
+        private void PrivateAfterPublic()
+        {
+            DoSomethingElse();
         }
     }
 }

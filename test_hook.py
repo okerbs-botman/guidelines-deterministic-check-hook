@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests that check_csharp_rules.sh detects all 9 deterministic violations in test_violations.cs"""
+"""Tests that check_csharp_rules.sh detects all 15 deterministic violations in test_violations.cs"""
 import subprocess
 import sys
 
@@ -16,6 +16,12 @@ EXPECTED = [
     "TRAILING_NEWLINE",
     "NO_BLANK_AFTER_ATTR",
     "BRACELESS_CONDITIONAL",
+    "TAB_INDENT",
+    "VISIBILITY_ORDER",
+    "HARDCODED_SN",
+    "NO_FIRST_LAST",
+    "NO_BLOCK_COMMENT",
+    "RAW_SQL_WARNING",
 ]
 
 result = subprocess.run(
