@@ -1,3 +1,61 @@
+## Instalacion
+
+- Copiar el directorio `hooks/` dentro de tu `.claude`
+
+- Agregar lo siguiente a tu `settings.json` dentro de `.claude`:
+```json
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_csharp_rules.sh\""
+          }
+        ]
+      }
+    ]
+  }
+```
+
+# Expectativa
+
+Te deberia quedar algo asi:
+
+```
+.claude/
+├── hooks/
+├── skills/
+└── settings.json
+```
+
+y el settings.json:
+```json
+{
+  "permissions": {
+    "allow": [
+      "...",
+      "...",
+      "...",
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/check_csharp_rules.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 # Deterministic C# Rule Checker — Claude Code PostToolUse Hook
 
 A PostToolUse hook that automatically checks C# files for coding standard violations after every `Edit`/`Write` and reports them back to Claude for immediate correction.
@@ -8,10 +66,6 @@ A PostToolUse hook that automatically checks C# files for coding standard violat
 2. The hook runs `check_csharp_rules.sh` on the modified file
 3. If violations are found, they're reported back to Claude as context
 4. Claude fixes the violations automatically
-
-## Installation
-
-Copy `.claude/` into your project root. The hook is configured in `.claude/settings.json`.
 
 ## Demo
 
