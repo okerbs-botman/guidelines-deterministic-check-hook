@@ -2,7 +2,7 @@
 
 - Copiar el directorio `hooks/` dentro de tu `.claude/`
 
-- Agregar lo siguiente a tu `settings.json` dentro de tu `.claude/`:
+- Agregar lo siguiente a tu `settings.local.json` dentro de tu `.claude/`:
 ```json
   "hooks": {
     "PostToolUse": [
@@ -27,10 +27,10 @@ Te deberia quedar algo asi:
 .claude/
 ├── hooks/
 ├── skills/
-└── settings.json
+└── settings.local.json
 ```
 
-y el settings.json:
+y el settings.local.json:
 ```json
 {
   "permissions": {
