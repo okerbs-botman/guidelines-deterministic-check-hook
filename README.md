@@ -81,9 +81,9 @@ To demo with Claude Code: open the project, tell Claude to add a comment to `tes
 
 ---
 
-![SS1](screenshots/ss1.png)
-![SS2](screenshots/ss2.png)
-![SS3](screenshots/ss3.png)
+![SS1](.development/screenshots/ss1.png)
+![SS2](.development/screenshots/ss2.png)
+![SS3](.development/screenshots/ss3.png)
 
 ## Rules
 
