@@ -73,7 +73,7 @@ if [[ -s "$FILE" ]]; then
 fi
 
 # ── R8: Blank line between attributes and members ───────────────────
-ATTR_BLANKS=$(awk '/\]\s*$/ { n=NR; t=$0 } /^\s*$/ && NR==n+1 { printf "  Line %d: %s (followed by blank line)\n", n, t }' "$FILE" || true)
+ATTR_BLANKS=$(awk '/^\s*\[.*\]\s*$/ { n=NR; t=$0 } /^\s*$/ && NR==n+1 && n>0 { printf "  Line %d: %s (followed by blank line)\n", n, t }' "$FILE" || true)
 [[ -n "$ATTR_BLANKS" ]] && VIOLATIONS+="[NO_BLANK_AFTER_ATTR: No blank lines between attributes and the member they decorate]"$'\n'"$ATTR_BLANKS"$'\n\n'
 
 # ── R9: Braceless conditionals ──────────────────────────────────────
